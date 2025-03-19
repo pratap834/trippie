@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trip Planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1528723872920-bdc5f0dac7fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            color: white;
+            padding: 120px 0;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .btn-primary {
+            background-color: #4a89dc;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(74, 137, 220, 0.3);
+        }
+        .btn-primary:hover {
+            background-color: #3672c5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(74, 137, 220, 0.4);
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 0 3px rgba(74, 137, 220, 0.25);
+            border-color: #4a89dc;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #4a89dc;
+            background: rgba(74, 137, 220, 0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .features {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        .feature-card {
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .animated-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            opacity: 0.1;
+        }
+        .animated-icon {
+            position: absolute;
+            font-size: 2rem;
+            color: white;
+            opacity: 0.4;
+            animation: float-icons 15s linear infinite;
+        }
+        @keyframes float-icons {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="animated-bg">
+            <i class="animated-icon fas fa-plane" style="left: 10%; top: 20%; animation-duration: 20s;"></i>
+            <i class="animated-icon fas fa-map-marker-alt" style="left: 20%; top: 50%; animation-duration: 15s;"></i>
+            <i class="animated-icon fas fa-compass" style="left: 30%; top: 30%; animation-duration: 18s;"></i>
+            <i class="animated-icon fas fa-suitcase" style="left: 50%; top: 10%; animation-duration: 12s;"></i>
+            <i class="animated-icon fas fa-camera" style="left: 70%; top: 40%; animation-duration: 22s;"></i>
+            <i class="animated-icon fas fa-mountain" style="left: 80%; top: 15%; animation-duration: 16s;"></i>
+            <i class="animated-icon fas fa-route" style="left: 90%; top: 60%; animation-duration: 14s;"></i>
+        </div>
+        <div class="container hero-content text-center">
+            <img src="https://api.dicebear.com/6.x/shapes/svg?seed=travel" alt="AI Trip Planner Logo" class="logo">
+            <h1 class="display-4 animate__animated animate__fadeInDown">AI Trip Planner</h1>
+            <p class="lead animate__animated animate__fadeInUp">Plan your perfect trip with the help of AI</p>
+            <div class="floating animate__animated animate__fadeIn">
+                <i class="fas fa-angle-double-down fa-2x mt-4 text-white"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row features">
+            <div class="col-md-4 mb-4 animate__animated animate__fadeInLeft">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Instant Itineraries</h3>
+                    <p>Get personalized trip plans in seconds with AI-powered suggestions</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 animate__animated animate__fadeInUp">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Custom Destinations</h3>
+                    <p>Explore any location with tailored recommendations for your preferences</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4 animate__animated animate__fadeInRight">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Local Experiences</h3>
+                    <p>Discover hidden gems, local cuisine, and authentic activities</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 animate__animated animate__fadeInUp">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center mb-4">Plan Your Trip</h2>
+                        <form id="tripForm">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="destination" class="form-label">
+                                        <i class="fas fa-map-marker-alt me-2"></i>Destination
+                                    </label>
+                                    <input type="text" class="form-control" id="destination" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="language" class="form-label">
+                                        <i class="fas fa-language me-2"></i>Language
+                                    </label>
+                                    <input type="text" class="form-control" id="language" placeholder="English" value="English">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label">
+                                    <i class="fas fa-calendar-alt me-2"></i>Duration (days)
+                                </label>
+                                <input type="number" class="form-control" id="duration" min="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="transport" class="form-label">
+                                    <i class="fas fa-car me-2"></i>Mode of Transport
+                                </label>
+                                <select class="form-select" id="transport" required>
+                                    <option value="">Select transport</option>
+                                    <option value="private">Private Transport</option>
+                                    <option value="public">Public Transport</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="budget" class="form-label">
+                                    <i class="fas fa-wallet me-2"></i>Budget
+                                </label>
+                                <select class="form-select" id="budget" required>
+                                    <option value="">Select budget</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-magic me-2"></i>Generate Trip Plan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add debug output area -->
+    <div class="container mt-3" id="debugArea" style="display: none;">
+        <div class="card">
+            <div class="card-body">
+                <h4>Debug Output</h4>
+                <pre id="debugOutput" style="white-space: pre-wrap; max-height: 300px; overflow-y: auto;"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function debugLog(message, data) {
+            const debugArea = document.getElementById('debugArea');
+            const debugOutput = document.getElementById('debugOutput');
+            
+            debugArea.style.display = 'block';
+            
+            const timestamp = new Date().toLocaleTimeString();
+            let logMessage = `[${timestamp}] ${message}\n`;
+            
+            if (data) {
+                if (typeof data === 'object') {
+                    logMessage += JSON.stringify(data, null, 2) + '\n';
+                } else {
+                    logMessage += data + '\n';
+                }
+            }
+            
+            debugOutput.textContent += logMessage;
+        }
+
+        // Add smooth scrolling
+        document.querySelector('.floating').addEventListener('click', function() {
+            document.querySelector('.features').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Add animation to form elements
+        const formInputs = document.querySelectorAll('.form-control, .form-select');
+        formInputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('animate__animated', 'animate__pulse');
+                setTimeout(() => {
+                    this.parentElement.classList.remove('animate__animated', 'animate__pulse');
+                }, 1000);
+            });
+        });
+
+        document.getElementById('tripForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const tripData = {
+                destination: document.getElementById('destination').value,
+                language: document.getElementById('language').value || 'English',
+                duration: document.getElementById('duration').value,
+                transport: document.getElementById('transport').value,
+                budget: document.getElementById('budget').value
+            };
+            
+            // Debug log
+            debugLog('Submitting trip data', tripData);
+            
+            // Store data in localStorage to be accessed in the results page
+            localStorage.setItem('tripData', JSON.stringify(tripData));
+            
+            // Show loading state
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating Plan...';
+            submitButton.disabled = true;
+            
+            // Send data to backend
+            fetch('/api/generate-trip', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(tripData),
+            })
+            .then(response => {
+                debugLog('Received response', `Status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                // Debug log
+                debugLog('Got trip plan data', data);
+                
+                // Store the generated itinerary
+                localStorage.setItem('tripPlan', JSON.stringify(data));
+                
+                // Navigate to results page with animation
+                document.body.classList.add('animate__animated', 'animate__fadeOut');
+                setTimeout(() => {
+                    window.location.href = '/results.html';
+                }, 500);
+            })
+            .catch(error => {
+                debugLog('Error', error.toString());
+                console.error('Error:', error);
+                alert('An error occurred while generating your trip plan. Please try again.');
+                submitButton.innerHTML = '<i class="fas fa-magic me-2"></i>Generate Trip Plan';
+                submitButton.disabled = false;
+            });
+        });
+
+        // Generate random floating icons
+        function createFloatingIcons() {
+            const icons = ['fa-plane', 'fa-map-marker-alt', 'fa-compass', 'fa-suitcase', 'fa-camera', 'fa-mountain', 'fa-route'];
+            const container = document.querySelector('.animated-bg');
+            
+            for (let i = 0; i < 20; i++) {
+                const icon = document.createElement('i');
+                const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+                icon.className = `animated-icon fas ${randomIcon}`;
+                icon.style.left = `${Math.random() * 100}%`;
+                icon.style.top = `${Math.random() * 100}%`;
+                icon.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                icon.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(icon);
+            }
+        }
+        
+        createFloatingIcons();
+    </script>
+</body>
+</html>
