@@ -19,7 +19,7 @@ Trip Planner & Blog Creator is a web application that helps users generate AI-po
 ## Installation & Setup
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/vasantha-kumar-s/trip-planner-ai.git
+   git clone https://github.com/vasantha-kumar-s/trip-planner-ai.git 
    cd trip-planner-ai
    ```
 2. **Install dependencies:**
