@@ -62,3 +62,6 @@ coverage/
 *.temp
 temp/
 tmp/
+
+.env.example
+.env.local
