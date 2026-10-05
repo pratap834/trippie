@@ -22,6 +22,7 @@ Trip Planner & Blog Creator is a web application that helps users generate AI-po
 - **Other**: NLTK (Natural Language Processing)
 
 ## Installation & Setup
+<<<<<<< HEAD
 
 ### Prerequisites
 - Node.js (v14 or higher)
@@ -79,6 +80,30 @@ Open your browser and navigate to:
 - Main page: `http://localhost:3000/main.html`
 - Trip Planner: `http://localhost:3000/index.html`
 - Blog Generator: `http://localhost:3000/blog.html`
+=======
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/vasantha-kumar-s/trip-planner-ai.git 
+   cd trip-planner-ai
+   ```
+2. **Install dependencies:**
+   ```sh
+   pip install -r requirements.txt
+   ```
+3. **Set up API Keys:**
+   - Obtain API keys for Gemini and Google Map API
+   - Set them in a `.env` file:
+     ```sh
+     GEMINI_API_KEY=your_gemini_api_key
+     MAP_API=your_map_api_key
+     ```
+4. **Run the application:**
+   ```sh
+   python app.py  # or appropriate command for your framework
+   ```
+5. **Access the Web App:**
+   Open `http://localhost:5000` in your browser.
+>>>>>>> a645a66456e3f6ad9fb996f4fe1d505b21109043
 
 ## Usage
 1. **Enter trip details**: Provide location, dates, budget and language.
