@@ -110,6 +110,15 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'main.html'));
 });
 
+// API endpoint to get Google Maps API key
+app.get('/api/maps-key', (req, res) => {
+    const mapApiKey = process.env.MAP_API;
+    if (!mapApiKey) {
+        return res.status(500).json({ error: 'Google Maps API key not configured' });
+    }
+    res.json({ apiKey: mapApiKey });
+});
+
 // Add explicit route for index.html
 app.get('/index.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

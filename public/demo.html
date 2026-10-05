@@ -31,9 +31,28 @@
                 title: "Madurai, India"
             });
         }
-    </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKi4uthP2PXNkv3U1TroiO3_RuhnGC9RA&callback=initMap" async defer></script>
+        // Load Google Maps API dynamically with API key from backend
+        async function loadGoogleMapsAPI() {
+            try {
+                const response = await fetch('/api/maps-key');
+                const data = await response.json();
+                if (data.apiKey) {
+                    const script = document.createElement('script');
+                    script.src = `https://maps.googleapis.com/maps/api/js?key=${data.apiKey}&callback=initMap`;
+                    script.async = true;
+                    script.defer = true;
+                    document.head.appendChild(script);
+                } else {
+                    console.error('Google Maps API key not available');
+                }
+            } catch (error) {
+                console.error('Error loading Google Maps API:', error);
+            }
+        }
+        // Load the maps API when page loads
+        loadGoogleMapsAPI();
+    </script>
 
 </body>
 </html>
